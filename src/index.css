@@ -1,0 +1,28 @@
+:root {
+  --text-primary: Helvetica, Arial, sans-serif;
+  --text-secoundary: Verdana;
+  --background: #fdfdfd;
+  --paper: #eeeded;
+  --color-buy: #40cc7d;
+  --color-sell: rgb(233, 19, 26);
+  --color-info: #6590e7;
+  --color-pink: #d3b2ea;
+  --color-aux: #cccccc;
+  --color-hover: #e9e9e9;
+  --color-enable: #bff1d6;
+  --color-text-primary: #2e2e2e;
+  --color-text-secoundary: #808080;
+  font-size: 18px;
+  font-family: var(--family-principal);
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--text-primary);
+}
