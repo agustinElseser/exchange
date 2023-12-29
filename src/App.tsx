@@ -27,7 +27,7 @@ export default function App() {
             <Route element={<AuthGuard privateValidation={true} />}>
               <Route path={`${PRIVATE_ROUTES.DASHBOARD}/*`} element={<TradePage />} />
               <Route path={`${PRIVATE_ROUTES.SETTINGS}/*`} element={<SettingsContainer />}>
-                {/* <Route path={`/*`} element={<SettingsPage />} /> */}
+                <Route path={``} element={<SettingsPage />} />
                 <Route path={`${PRIVATE_ROUTES.DEVICES}/*`} element={<DevicesPage />} />
               </Route>
             </Route>

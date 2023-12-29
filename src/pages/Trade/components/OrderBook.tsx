@@ -1,9 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
-import { Table, TableCell, TableHeader, TableRow } from "../../../components/styled/tables.styled";
+import {
+  Table,
+  TableCell,
+  TableChildren,
+  TableHeader,
+  TableRow,
+  TableRowChildren,
+  TableRowTrades,
+} from "../../../components/styled/tables.styled";
 import { Card } from "../../../components/styled/card.styled.ts";
 import { DividerH } from "../../../components/styled/box.styled.ts";
 
-export default function OrderBook() {
+interface IOrderBook {
+  price: number;
+}
+
+export default function OrderBook({ price }: IOrderBook) {
   const [data, setData] = useState([]);
   const [sellData, setSellData] = useState([]);
   const [buyData, setBuyData] = useState([]);
@@ -41,7 +53,7 @@ export default function OrderBook() {
     <Card>
       <h2>ORDER BOOK</h2>
       <DividerH />
-      <Table>
+      <TableChildren>
         <thead>
           <tr>
             <TableHeader>Price (USDT)</TableHeader>
@@ -51,24 +63,24 @@ export default function OrderBook() {
         </thead>
         <tbody>
           {sellData?.map((price, index) => (
-            <TableRow key={`${price}-${index}`}>
+            <TableRowTrades key={`${price}-${index}`}>
               <TableCell color={"var(--color-sell)"}>{price[0]}</TableCell>
               <TableCell>{price[1]}</TableCell>
               <TableCell>{price[2]}</TableCell>
-            </TableRow>
+            </TableRowTrades>
           ))}
-          <div key={"pricebtc"}>
-            <div>43000</div>
-          </div>
+
+          {sellData.length > 0 && <h3>{sellData[7][0] + buyData[0][0] / 2}</h3>}
+
           {buyData?.map((price, index) => (
-            <TableRow key={`${price}-${index}`}>
+            <TableRowTrades key={`${price}-${index}`}>
               <TableCell color={"var(--color-buy)"}>{price[0]}</TableCell>
               <TableCell>{price[1]}</TableCell>
               <TableCell>{price[2]}</TableCell>
-            </TableRow>
+            </TableRowTrades>
           ))}
         </tbody>
-      </Table>
+      </TableChildren>
     </Card>
   );
 }

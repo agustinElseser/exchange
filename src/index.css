@@ -4,7 +4,7 @@
   --background: #fdfdfd;
   --paper: #eeeded;
   --color-buy: #40cc7d;
-  --color-sell: rgb(233, 19, 26);
+  --color-sell: rgb(230, 68, 73);
   --color-info: #6590e7;
   --color-pink: #d3b2ea;
   --color-aux: #cccccc;
@@ -25,4 +25,8 @@
 
 body {
   font-family: var(--text-primary);
+}
+
+form {
+  width: 100%;
 }

@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Table, TableCell, TableHeader, TableRow } from "../../../components/styled/tables.styled";
+import {
+  Table,
+  TableCell,
+  TableChildren,
+  TableHeader,
+  TableRow,
+  TableRowChildren,
+  TableRowTrades,
+} from "../../../components/styled/tables.styled";
 import { formatTimeHHMMSS } from "../../../utilities/format-date-time.utility";
 import { DividerH } from "../../../components/styled/box.styled";
 import { Card } from "../../../components/styled/card.styled";
@@ -21,7 +29,7 @@ export default function Trades() {
     <Card>
       <h2>TRADES</h2>
       <DividerH />
-      <Table>
+      <TableChildren>
         <thead>
           <tr>
             <TableHeader>Price (USDT)</TableHeader>
@@ -31,14 +39,14 @@ export default function Trades() {
         </thead>
         <tbody>
           {data?.map((trade, index) => (
-            <TableRow key={index}>
+            <TableRowTrades key={index}>
               <TableCell color={trade.side === "buy" ? "var(--color-buy)" : "var(--color-sell)"}>{trade.px}</TableCell>
               <TableCell>{trade.sz}</TableCell>
               <TableCell>{formatTimeHHMMSS(parseFloat(trade.ts))}</TableCell>
-            </TableRow>
+            </TableRowTrades>
           ))}
         </tbody>
-      </Table>
+      </TableChildren>
     </Card>
   );
 }

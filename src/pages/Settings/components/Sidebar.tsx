@@ -10,7 +10,7 @@ export default function Sidebar() {
   return (
     <SidebarContainer>
       <NavTitle>Exchange</NavTitle>
-      <NavItems to="">
+      <NavItems to="/dashboard">
         <DashboardIcon />
         Dashboard
       </NavItems>

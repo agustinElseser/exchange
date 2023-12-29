@@ -21,7 +21,7 @@ export const Grid2 = styled.div`
 `;
 
 export const Grid3 = styled.div`
-  grid-area: 3 / 1 / 4 / 2;
+  grid-area: 3 / 1 / 3 / 2;
 `;
 
 export const Grid4 = styled.div`

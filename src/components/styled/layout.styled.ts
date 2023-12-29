@@ -21,6 +21,17 @@ export const Layout = styled.div`
     font-size: 0.9rem;
     font-weight: 600;
   }
+
+  & h5 {
+    font-size: 0.75rem;
+    color: var(--color-sell);
+  }
+  & h6 {
+    font-size: 0.8rem;
+    font-weight: 400;
+    width: 100px;
+  }
+
   & p {
     font-size: 0.8rem;
     font-weight: 400;

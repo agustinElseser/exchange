@@ -4,6 +4,7 @@ interface BoxProps {
   p?: string;
   justify?: string;
   align?: string;
+  gap?: string;
 }
 
 export const BoxColumn = styled.div<BoxProps>`
@@ -13,14 +14,15 @@ export const BoxColumn = styled.div<BoxProps>`
   align-items: ${(props) => props.align || "center"};
   flex-direction: column;
   padding: ${(props) => props.p || 0};
-  gap: 1rem;
+  gap: ${(props) => props.gap || "1rem"};
 `;
 
 export const BoxRow = styled.div<BoxProps>`
+  width: 100%;
   display: flex;
   justify-content: ${(props) => props.justify || "center"};
   padding: ${(props) => props.p || 0};
-  gap: 1rem;
+  gap: ${(props) => props.gap || "1rem"};
   align-items: ${(props) => props.align || "center"};
 `;
 export const DividerH = styled.div`
