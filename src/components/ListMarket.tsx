@@ -3,7 +3,7 @@ import CoinItem from "./CoinItem";
 import { MarketContainer } from "./styled/marketCoin.styled";
 
 export default function ListMarket() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
 
   const getData = async () => {
     await fetch("https://www.okx.com/api/v5/market/tickers?instType=SPOT")
@@ -18,7 +18,7 @@ export default function ListMarket() {
   return (
     <MarketContainer>
       {data?.map((item) => (
-        <CoinItem item={item} />
+        <CoinItem key={item.instId} item={item} />
       ))}
     </MarketContainer>
   );

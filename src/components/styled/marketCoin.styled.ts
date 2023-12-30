@@ -15,6 +15,7 @@ export const MarketContainer = styled.div`
   gap: 20px;
   white-space: nowrap;
   padding: 10px;
+  height: 35px;
 `;
 
 export const DataCoin = styled.div`

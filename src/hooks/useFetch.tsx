@@ -9,7 +9,7 @@ interface FetchState<T> {
 export const useFetch = () => {
   const [state, setState] = useState<FetchState<any>>({ loading: false, data: [] });
 
-  const token = window.localStorage.getItem("accessToken");
+  //const token = window.localStorage.getItem("accessToken");
 
   const fetch = useCallback(async (url: string, config: object = { method: "GET" }, setPage?: any) => {
     let responseError: any = undefined;
@@ -23,10 +23,7 @@ export const useFetch = () => {
       }));
 
       const response = await axios({
-        url: `${process.env.API_URL}/api${url}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        url: `https://www.okx.com/api/v5/market/${url}`,
         ...config,
       });
       responseData = response.data;
@@ -48,7 +45,7 @@ export const useFetch = () => {
         headers: responseHeaders,
       }));
     }
-  }, []); //eslint-disable-line
+  }, []);
 
   return {
     ...state,

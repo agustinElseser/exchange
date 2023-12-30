@@ -12,7 +12,6 @@ import { DividerV } from "./styled/box.styled";
 export default function NavBar() {
   const location: string = useLocation().pathname;
 
-  console.log("location", location);
   return (
     <>
       <Navbar>

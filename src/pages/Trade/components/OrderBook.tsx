@@ -1,53 +1,23 @@
-import { useEffect, useMemo, useState } from "react";
-import {
-  Table,
-  TableCell,
-  TableChildren,
-  TableHeader,
-  TableRow,
-  TableRowChildren,
-  TableRowTrades,
-} from "../../../components/styled/tables.styled";
+import { TableCell, TableChildren, TableHeader, TableRowTrades } from "../../../components/styled/tables.styled";
 import { Card } from "../../../components/styled/card.styled.ts";
 import { DividerH } from "../../../components/styled/box.styled.ts";
 
 interface IOrderBook {
-  price: number;
+  sellData: string[];
+  buyData: string[];
 }
 
-export default function OrderBook({ price }: IOrderBook) {
-  const [data, setData] = useState([]);
-  const [sellData, setSellData] = useState([]);
-  const [buyData, setBuyData] = useState([]);
-
-  const getData = async () => {
-    await fetch("https://www.okx.com/api/v5/market/books?instId=BTC-USDT&sz=8")
-      .then((resp) => resp.json())
-      .then((resp) => setData(resp.data[0]));
+export default function OrderBook({ sellData, buyData }: IOrderBook) {
+  const getTotal = () => {
+    if (sellData.length > 0) {
+      const sell = parseFloat(sellData[7][0] as string);
+      const buy = parseFloat(buyData[0][0] as string);
+      const prom = ((sell + buy) / 2).toFixed(2);
+      return prom;
+    } else {
+      return null;
+    }
   };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const calculateOrderBook = useMemo(() => {
-    const cumulativeCalc = (items) => {
-      let cumulativeSum = 0;
-      let data = [];
-
-      items?.forEach((item) => {
-        cumulativeSum += parseFloat(item[1]);
-        data.push([item[0], parseFloat(item[1]).toFixed(4), cumulativeSum.toFixed(4)]);
-      });
-
-      return data;
-    };
-
-    const sell = cumulativeCalc(data.asks);
-    const buy = cumulativeCalc(data.bids);
-    setSellData(sell.reverse());
-    setBuyData(buy);
-  }, [data]);
 
   return (
     <Card>
@@ -69,9 +39,11 @@ export default function OrderBook({ price }: IOrderBook) {
               <TableCell>{price[2]}</TableCell>
             </TableRowTrades>
           ))}
-
-          {sellData.length > 0 && <h3>{sellData[7][0] + buyData[0][0] / 2}</h3>}
-
+        </tbody>
+      </TableChildren>
+      <h3>{getTotal()}</h3>
+      <TableChildren>
+        <tbody>
           {buyData?.map((price, index) => (
             <TableRowTrades key={`${price}-${index}`}>
               <TableCell color={"var(--color-buy)"}>{price[0]}</TableCell>

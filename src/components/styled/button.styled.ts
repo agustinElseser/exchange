@@ -8,7 +8,7 @@ interface ButtonProps {
 export const Button = styled.button<ButtonProps>`
   min-width: fit-content;
   width: ${(props) => props.width || "100px"};
-  padding: 0.5rem;
+  padding: 0.3rem;
   font-size: 0.9rem;
   font-weight: 600;
   font-family: Arial, sans-serif;

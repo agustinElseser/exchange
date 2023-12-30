@@ -13,7 +13,7 @@ import {
 
 import { BoxRow } from "../../../components/styled/box.styled";
 import { DownArrow } from "../../../components/svg/DownArrow";
-import { RightArrow } from "../../../components/svg/RightArrow";
+import { RightArrow } from "../../../components/svg/DownArrow copy";
 
 const Row = ({ item, children }) => {
   const [open, setOpen] = useState(false);
