@@ -94,7 +94,6 @@ export default function TableDevice({ data }) {
     setPageData(data.slice(startIndex, endIndex));
   }, [data, currentPage, itemsPerPage]);
 
-  console.log(pageData);
   const NestedRow = ({ item }) => {
     return (
       <TableRow>
