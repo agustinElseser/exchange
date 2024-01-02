@@ -65,3 +65,29 @@ export const TextInput = styled.h2`
   top: 50%;
   transform: translateY(-50%);
 `;
+
+export const InputSelectWrapper = styled.div`
+  position: relative;
+`;
+export const InputSelect = styled.select<InputProps>`
+  width: 35px;
+  padding: 3px;
+  border: 1px solid ${(props) => (props.error ? "red" : props.color || "var(--color-aux)")};
+
+  transition: all 0.2s;
+  animation-duration: 2s;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.7rem;
+`;
+
+export const InputOption = styled.option<InputProps>`
+  width: 40px;
+  padding: 6px;
+  font-size: 0.7rem;
+  border: 1px solid ${(props) => (props.error ? "red" : props.color || "var(--color-aux)")};
+  border-radius: 3px;
+  transition: all 0.2s;
+  animation-duration: 2s;
+  cursor: pointer;
+`;

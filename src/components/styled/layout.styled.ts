@@ -6,7 +6,7 @@ export const Layout = styled.div`
   width: 100%;
   padding: 1.4rem;
   background-color: var(--paper);
-  height: 100svh;
+  min-height: 100svh;
 
   & h1 {
     font-size: 1.2rem;

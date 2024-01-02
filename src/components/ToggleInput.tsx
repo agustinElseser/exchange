@@ -6,9 +6,10 @@ interface ToggleInputProps {
   check: boolean;
   disable: string;
   activate: string;
+  disabled?: boolean;
 }
 
-export default function ToggleInput({ handleDialog, check, disable, activate }: ToggleInputProps) {
+export default function ToggleInput({ handleDialog, disabled, check, disable, activate }: ToggleInputProps) {
   const { toggle } = useToggle();
 
   const handleAction = () => {
@@ -23,7 +24,7 @@ export default function ToggleInput({ handleDialog, check, disable, activate }: 
 
   return (
     <ToggleSwitch>
-      <ToggleSwitchInput checked={check} onChange={handleAction} />
+      <ToggleSwitchInput checked={check} onChange={handleAction} disabled={disabled} />
       <ToggleSwitchBackground>
         <ToggleSwitchHandle />
       </ToggleSwitchBackground>

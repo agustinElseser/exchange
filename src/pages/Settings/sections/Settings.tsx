@@ -49,7 +49,7 @@ export default function Settings() {
       <BoxColumn align="start">
         <h1>Settings</h1>
         <BoxRow align="start">
-          <BoxColumn>
+          <BoxColumn gap="1.5rem">
             <Card>
               <BoxRow justify="space-between">
                 <h2>2FACTOR-AUTHENTICATION</h2>
@@ -80,10 +80,16 @@ export default function Settings() {
                 )}
               </BoxRow>
               <TextModal disabled={!options.google_auth}>Change</TextModal>
-              <Card bgcolor="var(--color-enable)">
+              <Card bgcolor={!options.google_auth ? "var(--color-hover)" : "var(--color-enable)"}>
                 <BoxRow justify="space-between">
                   <h3>Withdraw & API</h3>
-                  <ToggleInput check={options.withdraw} handleDialog={handleDialog} disable="cancelProcess" activate="enableProcess" />
+                  <ToggleInput
+                    disabled={!options.google_auth}
+                    check={options.withdraw}
+                    handleDialog={handleDialog}
+                    disable="cancelProcess"
+                    activate="enableProcess"
+                  />
                 </BoxRow>
               </Card>
               <DividerH />
@@ -122,7 +128,7 @@ export default function Settings() {
               </BoxRow>
             </Card>
           </BoxColumn>
-          <BoxColumn>
+          <BoxColumn gap="1.5rem">
             <Card bgcolor="var(--color-pink)">
               <BoxRow justify="space-between">
                 <BoxRow justify="start">

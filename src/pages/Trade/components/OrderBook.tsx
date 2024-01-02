@@ -1,6 +1,7 @@
 import { TableCell, TableChildren, TableHeader, TableRowTrades } from "../../../components/styled/tables.styled";
 import { Card } from "../../../components/styled/card.styled.ts";
-import { DividerH } from "../../../components/styled/box.styled.ts";
+import { BoxRow, DividerH } from "../../../components/styled/box.styled.ts";
+import Loader from "../../../components/Loader.tsx";
 
 interface IOrderBook {
   sellData: string[];
@@ -23,14 +24,21 @@ export default function OrderBook({ sellData, buyData }: IOrderBook) {
     <Card>
       <h2>ORDER BOOK</h2>
       <DividerH />
+      {sellData.length <= 0 && (
+        <BoxRow style={{ height: "409px" }}>
+          <Loader />
+        </BoxRow>
+      )}
       <TableChildren>
-        <thead>
-          <tr>
-            <TableHeader>Price (USDT)</TableHeader>
-            <TableHeader>Size (BTC)</TableHeader>
-            <TableHeader>Sum (BTC)</TableHeader>
-          </tr>
-        </thead>
+        {sellData.length > 0 && (
+          <thead>
+            <tr>
+              <TableHeader>Price (USDT)</TableHeader>
+              <TableHeader>Size (BTC)</TableHeader>
+              <TableHeader>Sum (BTC)</TableHeader>
+            </tr>
+          </thead>
+        )}
         <tbody>
           {sellData?.map((price, index) => (
             <TableRowTrades key={`${price}-${index}`}>

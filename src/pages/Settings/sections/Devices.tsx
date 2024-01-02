@@ -8,9 +8,9 @@ import { loginData } from "../components/loginData.ts";
 import Modal from "../../../components/Modal.tsx";
 import { useState } from "react";
 import DisableAccount from "../components/modals/DisableAccount.tsx";
+import Pagination from "../../../components/Pagination.tsx";
 export default function Devices() {
   const navigate = useNavigate();
-
   const goBack = () => {
     navigate(-1);
   };
@@ -37,7 +37,7 @@ export default function Devices() {
       </BoxColumn>
       {open && (
         <Modal open={open} onClose={handleDialog}>
-          <DisableAccount />
+          <DisableAccount onClose={handleDialog} />
         </Modal>
       )}
     </>

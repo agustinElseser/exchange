@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
   Table,
@@ -14,6 +14,7 @@ import {
 import { BoxRow } from "../../../components/styled/box.styled";
 import { DownArrow } from "../../../components/svg/DownArrow";
 import { RightArrow } from "../../../components/svg/DownArrow copy";
+import Pagination from "../../../components/Pagination";
 
 const Row = ({ item, children }) => {
   const [open, setOpen] = useState(false);
@@ -72,6 +73,28 @@ const Row = ({ item, children }) => {
 };
 
 export default function TableDevice({ data }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [pageData, setPageData] = useState([]);
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    const number = parseFloat(newItemsPerPage);
+    setItemsPerPage(number);
+    setCurrentPage(1);
+  };
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const getCurrentPageData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setPageData(data.slice(startIndex, endIndex));
+  }, [data, currentPage, itemsPerPage]);
+
+  console.log(pageData);
   const NestedRow = ({ item }) => {
     return (
       <TableRow>
@@ -100,19 +123,27 @@ export default function TableDevice({ data }) {
   };
 
   return (
-    <Table>
-      <TableHeaderDevices>
-        <tr>
-          <TableHeader>DATA</TableHeader>
-          <TableHeader>DEVICE</TableHeader>
-          <TableHeader>STATUS</TableHeader>
-          <TableHeader>COUNTRY/CITY</TableHeader>
-          <TableHeader>IP ADDRESS</TableHeader>
-          <TableHeader>ACTION</TableHeader>
-        </tr>
-      </TableHeaderDevices>
+    <>
+      <Table>
+        <TableHeaderDevices>
+          <tr>
+            <TableHeader>DATA</TableHeader>
+            <TableHeader>DEVICE</TableHeader>
+            <TableHeader>STATUS</TableHeader>
+            <TableHeader>COUNTRY/CITY</TableHeader>
+            <TableHeader>IP ADDRESS</TableHeader>
+            <TableHeader>ACTION</TableHeader>
+          </tr>
+        </TableHeaderDevices>
 
-      <tbody>{renderData(data)}</tbody>
-    </Table>
+        <tbody>{renderData(pageData)}</tbody>
+      </Table>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handlePageClick={handlePageClick}
+        handleItemsPerPageChange={handleItemsPerPageChange}
+      />
+    </>
   );
 }

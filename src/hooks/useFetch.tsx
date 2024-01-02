@@ -9,9 +9,7 @@ interface FetchState<T> {
 export const useFetch = () => {
   const [state, setState] = useState<FetchState<any>>({ loading: false, data: [] });
 
-  //const token = window.localStorage.getItem("accessToken");
-
-  const fetch = useCallback(async (url: string, config: object = { method: "GET" }, setPage?: any) => {
+  const fetch = useCallback(async (url: string, config: object = { method: "GET" }) => {
     let responseError: any = undefined;
     let responseData: any;
     let responseHeaders: any;
@@ -28,9 +26,6 @@ export const useFetch = () => {
       });
       responseData = response.data;
       responseHeaders = response.headers;
-      if (setPage) {
-        setPage(0);
-      }
 
       return response;
     } catch (error) {

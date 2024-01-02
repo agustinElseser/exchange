@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { TableCell, TableChildren, TableHeader, TableRowTrades } from "../../../components/styled/tables.styled";
 import { formatTimeHHMMSS } from "../../../utilities/format-date-time.utility";
-import { DividerH } from "../../../components/styled/box.styled";
+import { BoxColumn, BoxRow, DividerH } from "../../../components/styled/box.styled";
 import { Card } from "../../../components/styled/card.styled";
 import { useFetch } from "../../../hooks/useFetch";
 import Loader from "../../../components/Loader";
@@ -25,20 +25,24 @@ export default function Trades() {
     <Card>
       <h2>TRADES</h2>
       <DividerH />
-      <TableChildren>
-        <thead>
-          <tr>
-            <TableHeader>Price (USDT)</TableHeader>
-            <TableHeader>Amount (BTC)</TableHeader>
-            <TableHeader>Time</TableHeader>
-          </tr>
-        </thead>
-        {data.length <= 0 ? (
+      {data.length <= 0 && (
+        <BoxRow style={{ height: "202px" }}>
           <Loader />
-        ) : (
-          <tbody>
-            {data.data &&
-              data?.data.map((trade: Trade, index) => (
+        </BoxRow>
+      )}
+      <TableChildren>
+        {data.data && (
+          <>
+            <thead>
+              <tr>
+                <TableHeader>Price (USDT)</TableHeader>
+                <TableHeader>Amount (BTC)</TableHeader>
+                <TableHeader>Time</TableHeader>
+              </tr>
+            </thead>
+
+            <tbody>
+              {data?.data.map((trade: Trade, index) => (
                 <TableRowTrades key={index}>
                   <TableCell color={trade.side === "buy" ? "var(--color-buy)" : "var(--color-sell)"}>{trade.px}</TableCell>
                   <TableCell>{trade.sz}</TableCell>
@@ -46,7 +50,8 @@ export default function Trades() {
                   <TableCell>{formatTimeHHMMSS(parseFloat(trade.ts))}</TableCell>
                 </TableRowTrades>
               ))}
-          </tbody>
+            </tbody>
+          </>
         )}
       </TableChildren>
     </Card>

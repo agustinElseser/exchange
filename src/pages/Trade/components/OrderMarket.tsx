@@ -3,6 +3,7 @@ import { BoxColumn, BoxRow } from "../../../components/styled/box.styled";
 import { Button } from "../../../components/styled/button.styled";
 import { InputMarket, InputWithIcon, InputWrapper, TextInput } from "../../../components/styled/input.styled";
 import { Card } from "../../../components/styled/card.styled";
+import { Form } from "../../../components/styled/Form.styled";
 
 interface Props {
   type: "buy" | "sell";
@@ -66,7 +67,7 @@ export default function OrderMarket({ type, price }: Props) {
       : "";
 
   return (
-    <form ref={formRef}>
+    <Form ref={formRef}>
       <BoxColumn align="start" p="0px 1rem" gap="6px">
         <Card bgcolor="var(--color-hover)">
           <BoxRow justify="end">
@@ -113,6 +114,6 @@ export default function OrderMarket({ type, price }: Props) {
           {type.toLocaleUpperCase()}
         </Button>
       </BoxColumn>
-    </form>
+    </Form>
   );
 }

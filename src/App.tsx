@@ -29,7 +29,8 @@ export default function App() {
               <Route path={`${PRIVATE_ROUTES.DASHBOARD}/*`} element={<TradePage />} />
               <Route path={`${PRIVATE_ROUTES.SETTINGS}/*`} element={<SettingsContainer />}>
                 <Route path={``} element={<SettingsPage />} />
-                <Route path={`${PRIVATE_ROUTES.DEVICES}/*`} element={<DevicesPage />} />
+                <Route path={`${PRIVATE_ROUTES.DEVICES}*`} element={<DevicesPage />} />
+                <Route path="*" element={<Navigate to="/dashboard" />} />
               </Route>
             </Route>
             <Route element={<RoleGuard rol={ROLES.ADMIN} />}>

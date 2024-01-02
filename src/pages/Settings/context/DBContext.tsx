@@ -5,7 +5,6 @@ export type TypeDBContext = {
   handleOptions: (name: keyof SettingsOptions, value: boolean) => void;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DBContext = createContext<TypeDBContext>({} as TypeDBContext);
 
 export interface SettingsOptions {

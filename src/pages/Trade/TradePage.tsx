@@ -10,8 +10,8 @@ import { useFetch } from "../../hooks/useFetch.tsx";
 import Loader from "../../components/Loader.tsx";
 
 export default function TradePage() {
-  const { fetch, data, loading } = useFetch();
-  const { fetch: fetchRefresh, data: dataOrderBook, loading: loadingRefresh } = useFetch();
+  const { fetch, data } = useFetch();
+  const { fetch: fetchRefresh, data: dataOrderBook } = useFetch();
 
   const [sellData, setSellData] = useState<string[]>([]);
   const [buyData, setBuyData] = useState<string[]>([]);
@@ -50,37 +50,39 @@ export default function TradePage() {
   return (
     <>
       <TradeContainer>
-        {sellData.length <= 0 ? (
-          <BoxRow justify="center" style={{ height: "60%" }}>
-            <Loader />
-          </BoxRow>
-        ) : (
-          <BoxRow justify="space-between">
-            <Grid1>
-              <h1>BTCS/USDT</h1>
-              {data.data && (
-                <BoxRow justify="start">
-                  <p>24hs Range:</p>
-                  <TextModal color="var(--color-text-primary)">
-                    {(((data.data[0].high24h - data.data[0].low24h) / data.data[0].low24h) * 100).toFixed(2)} %
-                  </TextModal>
-                  <DividerV height="20px" />
-                  <p>Low:</p>
-                  <TextModal color="var(--color-sell)">{data.data[0].low24h} USDT</TextModal> <DividerV height="20px" />
-                  <p>High:</p>
-                  <TextModal color="var(--color-buy)">{data.data[0].high24h} USDT</TextModal>
-                  <DividerV height="20px" />
-                  <p>24hs Volume:</p>
-                  <TextModal color="var(--color-text-primary)">{data.data[0].high24h * 14230} USDT</TextModal>
-                </BoxRow>
-              )}
-              <Chart sellData={sellData} buyData={buyData} />
-            </Grid1>
-            <Grid2>
-              <OrderBook sellData={sellData} buyData={buyData} />
-            </Grid2>
-          </BoxRow>
-        )}
+        <BoxRow justify="space-between">
+          <Grid1>
+            {sellData.length <= 0 ? (
+              <BoxRow justify="center">
+                <Loader />
+              </BoxRow>
+            ) : (
+              <>
+                <h1>BTCS/USDT</h1>
+                {data.data && (
+                  <BoxRow justify="start">
+                    <p>24hs Range:</p>
+                    <TextModal color="var(--color-text-primary)">
+                      {(((data.data[0].high24h - data.data[0].low24h) / data.data[0].low24h) * 100).toFixed(2)} %
+                    </TextModal>
+                    <DividerV height="20px" />
+                    <p>Low:</p>
+                    <TextModal color="var(--color-sell)">{data.data[0].low24h} USDT</TextModal> <DividerV height="20px" />
+                    <p>High:</p>
+                    <TextModal color="var(--color-buy)">{data.data[0].high24h} USDT</TextModal>
+                    <DividerV height="20px" />
+                    <p>24hs Volume:</p>
+                    <TextModal color="var(--color-text-primary)">{data.data[0].high24h * 14230} USDT</TextModal>
+                  </BoxRow>
+                )}
+                <Chart sellData={sellData} buyData={buyData} />
+              </>
+            )}
+          </Grid1>
+          <Grid2>
+            <OrderBook sellData={sellData} buyData={buyData} />
+          </Grid2>
+        </BoxRow>
         <BoxRow justify="space-between">
           <Grid3>
             <BoxRow gap="2rem">

@@ -31,9 +31,10 @@ export default function Chart({ sellData, buyData }) {
     data.push(newItem);
   });
 
+  const WidthCalc = window.innerWidth * 0.7;
   return (
     <AreaChart
-      width={1400}
+      width={WidthCalc}
       height={400}
       data={data}
       margin={{
