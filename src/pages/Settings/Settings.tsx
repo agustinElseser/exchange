@@ -2,7 +2,7 @@ import Sidebar from "./components/Sidebar";
 import { SettingsContainer } from "../../components/styled/settings.styled.ts";
 import { Outlet } from "react-router-dom";
 import { DividerV } from "../../components/styled/box.styled.ts";
-import ApexChart from "../Trade/components/Chart.tsx";
+import { DBProvider } from "./context/DBContext.tsx";
 
 export default function Settings() {
   return (
@@ -10,7 +10,9 @@ export default function Settings() {
       <SettingsContainer>
         <Sidebar />
         <DividerV height="100%" />
-        <Outlet />
+        <DBProvider>
+          <Outlet />
+        </DBProvider>
       </SettingsContainer>
     </>
   );

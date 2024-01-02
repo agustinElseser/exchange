@@ -20,6 +20,7 @@ export const LoaderRectangle = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0 3px;
+  height: 100%;
 `;
 
 export const Rectangle = styled.div`

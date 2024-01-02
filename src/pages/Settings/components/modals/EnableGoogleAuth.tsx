@@ -7,6 +7,8 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Form, LabelFormHelp } from "../../../../components/styled/Form.styled.ts";
+import { useContext } from "react";
+import { DBContext } from "../../context/DBContext.tsx";
 
 const schema = yup.object().shape({
   fa: yup
@@ -15,7 +17,8 @@ const schema = yup.object().shape({
     .matches(/^\d{6}$/, "*Must be a 6-digit number"),
 });
 
-export default function EnableGoogleAuth() {
+export default function EnableGoogleAuth({ onClose }) {
+  const { handleOptions } = useContext(DBContext);
   const defaultValues = {
     fa: "",
   };
@@ -31,10 +34,12 @@ export default function EnableGoogleAuth() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSubmit = () => {
+    handleOptions("google_auth", true);
     reset();
+    onClose("close");
   };
+
   return (
     <>
       <h3>Google Authentication</h3>
@@ -53,7 +58,9 @@ export default function EnableGoogleAuth() {
           {errors.fa && <LabelFormHelp>{errors.fa.message}</LabelFormHelp>}
         </BoxColumn>
         <ModalActions>
-          <Button variant="outlined">Cancel</Button>
+          <Button variant="outlined" onClick={() => onClose("close")}>
+            Cancel
+          </Button>
           <Button variant="full" type="submit">
             Submit
           </Button>

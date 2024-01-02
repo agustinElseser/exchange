@@ -1,46 +1,66 @@
+import { useRef, useState } from "react";
+import { Form } from "../../../../components/styled/Form.styled.ts";
 import { BoxColumn, BoxRow } from "../../../../components/styled/box.styled";
-import { Button } from "../../../../components/styled/button.styled.ts";
-import { Input } from "../../../../components/styled/input.styled.ts";
+import { Button, ButtonClose } from "../../../../components/styled/button.styled.ts";
+import { InputSeparate } from "../../../../components/styled/input.styled.ts";
 import { ModalActions } from "../../../../components/styled/modal.styled.ts";
-import { TextModal } from "../../../../components/styled/settings.styled.ts";
-import { HelpIcon } from "../../../../components/svg/HelpIcon";
 
-export default function TwoFactorAuth() {
+export default function TwoFactorAuth({ onClose }) {
+  const [inputValues, setInputValues] = useState(Array(6).fill(""));
+
+  const inputRefs = Array.from({ length: 6 }, () => useRef(null));
+
+  const handleChange = (index, value) => {
+    const sanitized = value.replace(/[^0-9]/g, "");
+    const singleDigit = sanitized.slice(0, 1);
+
+    const newInputValues = [...inputValues];
+    newInputValues[index] = singleDigit;
+    setInputValues(newInputValues);
+
+    if (/^[0-9]*$/.test(singleDigit) && index < inputRefs.length - 1) {
+      //@ts-ignore
+      inputRefs[index + 1].current.focus();
+    }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (inputValues.length === 6) {
+      onClose("close");
+    }
+  };
+
   return (
     <>
-      <h3>Enabled SMS Authenticador</h3>
-      <BoxColumn align="start">
+      <h3>2-Factor authentication</h3>
+      <ButtonClose onClick={() => onClose("close")}>✖</ButtonClose>
+      <Form>
+        <label>Please enter your 2-factor authentication code to proceed with your wanted changes.</label>
         <BoxColumn align="start" gap="0px">
-          <label>Phone Number</label>
-          <Input />
-        </BoxColumn>
-        <BoxColumn gap="0px">
+          <label>2-Factor authentication</label>
           <BoxRow justify="space-between">
-            <label>SMS Verification code</label>
-            <TextModal>Get code</TextModal>
-          </BoxRow>
-          <Input />
-        </BoxColumn>
-        <BoxColumn gap="0px" align="start">
-          <BoxRow justify="space-between">
-            <label>Email Verification code</label>
-            <TextModal>Get code</TextModal>
-          </BoxRow>
-          <Input />
-          <BoxRow justify="start" gap="3px">
-            <HelpIcon />
-            <p>Enter the 6 digit code received by exam***@gmail.com</p>
+            {inputRefs.map((input, index) => (
+              <InputSeparate
+                key={index}
+                ref={input}
+                type="text"
+                value={inputValues[index]}
+                onChange={(e) => handleChange(index, e.target.value)}
+              />
+            ))}
           </BoxRow>
         </BoxColumn>
-        <BoxColumn gap="0px" align="start">
-          <label>Google 2-FA Verification code</label>
-          <Input />
-        </BoxColumn>
-      </BoxColumn>
-      <ModalActions>
-        <Button variant="outlined">Cancel</Button>
-        <Button variant="full">Submit</Button>
-      </ModalActions>
+
+        <ModalActions>
+          <Button variant="outlined" onClick={() => onClose("close")}>
+            Cancel
+          </Button>
+          <Button variant="full" onClick={(e) => onSubmit(e)}>
+            Continue
+          </Button>
+        </ModalActions>
+      </Form>
     </>
   );
 }

@@ -1,21 +1,17 @@
-import { BoxColumn, BoxRow } from "../../../../components/styled/box.styled";
+import { BoxColumn } from "../../../../components/styled/box.styled.ts";
 import { Button } from "../../../../components/styled/button.styled.ts";
 import { IconInput, Input, InputWithIcon, InputWrapper } from "../../../../components/styled/input.styled.ts";
 import { ModalActions } from "../../../../components/styled/modal.styled.ts";
-import { TextModal } from "../../../../components/styled/settings.styled.ts";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Form, LabelFormHelp } from "../../../../components/styled/Form.styled.ts";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { EyeIcon } from "../../../../components/svg/EyeIcon.tsx";
 import { EyeOffIcon } from "../../../../components/svg/EyeOffIcon.tsx";
+import { DBContext } from "../../context/DBContext.tsx";
 
 const schema = yup.object().shape({
-  email_code: yup
-    .string()
-    .required("*Required field")
-    .matches(/[0-9a-zA-Z]{6}$/, "*Must be a 6-digit"),
   old_pw: yup.string().required("*Required field"),
   fa: yup
     .string()
@@ -28,8 +24,8 @@ interface DefaultValues {
   old_pw: string;
   fa: string;
 }
-
-export default function DisableAccount({ onClose }) {
+export default function EnableWhitedraw({ onClose }) {
+  const { handleOptions } = useContext(DBContext);
   const [showActPassword, setShowActPassword] = useState(false);
   const defaultValues: DefaultValues = {
     email_code: "",
@@ -49,30 +45,16 @@ export default function DisableAccount({ onClose }) {
   });
 
   const onSubmit = () => {
-    onClose("close");
+    handleOptions("withdraw", true);
     reset();
+    onClose("close");
   };
   return (
     <>
-      <h3>Disable my account</h3>
+      <h3>Active process</h3>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <BoxColumn gap="0px" align="start">
-          <h6>WARNING</h6>
-          <p>
-            You can only disable account, for legalreasons we ca not delete your account. After you click disable button, you will receive
-            email with next steps. You will be able to cancel during the process.
-          </p>
-        </BoxColumn>
-        <BoxColumn gap="0px" align="start">
-          <BoxRow justify="space-between">
-            <label>Email Verification code</label>
-            <TextModal type="button">Get code</TextModal>
-          </BoxRow>
-          <Controller name="email_code" control={control} render={({ field }) => <Input {...field} error={Boolean(errors.email_code)} />} />
-          {errors.email_code && <LabelFormHelp>{errors.email_code.message}</LabelFormHelp>}
-        </BoxColumn>
-        <BoxColumn gap="0px" align="start">
-          <label>Insert old password</label>
+        <BoxColumn align="start" gap="0px">
+          <label>Password</label>
           <Controller
             name="old_pw"
             control={control}
@@ -96,13 +78,12 @@ export default function DisableAccount({ onClose }) {
           <Controller name="fa" control={control} render={({ field }) => <Input {...field} error={Boolean(errors.fa)} />} />
           {errors.fa && <LabelFormHelp>{errors.fa.message}</LabelFormHelp>}
         </BoxColumn>
-
         <ModalActions>
           <Button variant="outlined" onClick={() => onClose("close")}>
-            Cancel
+            Exit
           </Button>
-          <Button variant="full" color="var(--color-sell)" type="submit">
-            Disable
+          <Button variant="full" color="var(--color-buy)" type="submit">
+            Activate
           </Button>
         </ModalActions>
       </Form>

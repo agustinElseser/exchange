@@ -8,6 +8,7 @@ import AuthGuard from "./guards/AuthGuard";
 import RoleGuard from "./guards/RolGuard";
 import { Layout } from "./components/styled/layout.styled";
 import NavBar from "./components/NavBar";
+import Loader from "./components/Loader";
 
 const TradePage = lazy(() => import("./pages/Trade/TradePage"));
 const SettingsContainer = lazy(() => import("./pages/Settings/Settings"));
@@ -17,7 +18,7 @@ const DevicesPage = lazy(() => import("./pages/Settings/sections/Devices"));
 export default function App() {
   return (
     <Layout>
-      <Suspense fallback={<>Cargando</>}>
+      <Suspense fallback={<Loader />}>
         <BrowserRouter>
           {/* <Logout /> */}
           <NavBar />

@@ -19,6 +19,16 @@ export const Input = styled.input<InputProps>`
   transition: all 0.2s;
   animation-duration: 2s;
 `;
+
+export const InputSeparate = styled.input<InputProps>`
+  width: 40px;
+  padding: 8px;
+  border: 1px solid ${(props) => (props.error ? "red" : props.color || "var(--color-aux)")};
+  border-radius: 3px;
+  transition: all 0.2s;
+  animation-duration: 2s;
+  text-align: center;
+`;
 export const InputMarket = styled.input<InputProps>`
   width: 100%;
   padding: 8px;

@@ -37,7 +37,6 @@ export default function OrderMarket({ type, price }: Props) {
     e.preventDefault();
     const { name, value } = e.target;
 
-    //Reemplazo de "," por "." y bloquear NaN
     const numericValue = value.replace(/,/g, ".");
     const sanitized = numericValue.replace(/[^0-9.]/g, "");
     const finalValue = sanitized.replace(/(\.\d*\.)/g, ".");

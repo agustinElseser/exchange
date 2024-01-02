@@ -11,7 +11,7 @@ export default function Modal({ open, onClose, children }: Props) {
   return (
     <ModalWrapper open={open}>
       <ModalContent>
-        <ButtonClose onClick={() => onClose("close")}>X</ButtonClose>
+        <ButtonClose onClick={() => onClose("close")}>✖</ButtonClose>
         {children}
       </ModalContent>
     </ModalWrapper>

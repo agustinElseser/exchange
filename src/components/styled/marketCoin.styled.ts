@@ -30,3 +30,11 @@ export const DataCoin = styled.div`
   }
   animation: ${moving} 200000s linear infinite;
 `;
+
+interface VariationProp {
+  color?: string;
+}
+export const Variation = styled.p<VariationProp>`
+  font-size: 0.6rem;
+  color: ${(props) => `${props.color} !important ` || "var(--color-buy)"};
+`;

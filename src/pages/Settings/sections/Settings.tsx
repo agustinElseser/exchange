@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useContext, useState } from "react";
 import ChangeEmail from "../components/modals/ChangeEmail";
 import TwoFactorAuth from "../components/modals/TwoFactorAuth";
 import EnableSMSAuth from "../components/modals/EnableSMSAuth";
@@ -16,22 +15,12 @@ import ToggleInput from "../../../components/ToggleInput.tsx";
 import { VerifyIcon } from "../../../components/svg/VerifyIcon.tsx";
 import Modal from "../../../components/Modal.tsx";
 import Tooltip from "../../../components/Tooltip.tsx";
-
-const modals = {
-  emailVerification: <h2>Email Verification</h2>,
-  email: <ChangeEmail />,
-  FA: <TwoFactorAuth />,
-  changePw: <ChangePassword />,
-  enableGoogleAuth: <EnableGoogleAuth />,
-  desactiveGoogle: <DesactiveGoogleAuth />,
-  enableSMS: <EnableSMSAuth />,
-  desactiveSMS: <DesactiveSMSAuth />,
-  cancelProcess: <DisableWhitedraw />,
-  disableAccount: <DisableAccount />,
-  whitelist: <h2>Whitelist management</h2>,
-};
+import { DBContext } from "../context/DBContext.tsx";
+import EnableWhitedraw from "../components/modals/EnableWhitedraw.tsx";
+import ToggleInputWithout from "../../../components/ToggleInputWithout.tsx";
 
 export default function Settings() {
+  const { options } = useContext(DBContext);
   const [open, setOpen] = useState(false);
   const [typeDialog, setTypeDialog] = useState("");
 
@@ -40,6 +29,19 @@ export default function Settings() {
       setTypeDialog(type);
       setOpen(!open);
     }
+  };
+
+  const modals = {
+    email: <ChangeEmail onClose={handleDialog} />,
+    FA: <TwoFactorAuth onClose={handleDialog} />,
+    changePw: <ChangePassword onClose={handleDialog} />,
+    enableGoogleAuth: <EnableGoogleAuth onClose={handleDialog} />,
+    desactiveGoogle: <DesactiveGoogleAuth onClose={handleDialog} />,
+    enableSMS: <EnableSMSAuth onClose={handleDialog} />,
+    desactiveSMS: <DesactiveSMSAuth onClose={handleDialog} />,
+    cancelProcess: <DisableWhitedraw onClose={handleDialog} />,
+    enableProcess: <EnableWhitedraw onClose={handleDialog} />,
+    disableAccount: <DisableAccount onClose={handleDialog} />,
   };
 
   return (
@@ -59,29 +61,45 @@ export default function Settings() {
                   Goole Authentication
                   <span>(Settings & sign in)</span>
                 </h3>
-                <Tooltip text="To enable Security key, first you have to turn on Google authentication">
-                  <ToggleInput handleDialog={handleDialog} disable="desactiveGoogle" activate="enableGoogleAuth" />
-                </Tooltip>
+                {!options.google_auth ? (
+                  <Tooltip text="To enable Security key, first you have to turn on Google authentication">
+                    <ToggleInput
+                      check={options.google_auth}
+                      handleDialog={handleDialog}
+                      disable="desactiveGoogle"
+                      activate="enableGoogleAuth"
+                    />
+                  </Tooltip>
+                ) : (
+                  <ToggleInput
+                    check={options.google_auth}
+                    handleDialog={handleDialog}
+                    disable="desactiveGoogle"
+                    activate="enableGoogleAuth"
+                  />
+                )}
               </BoxRow>
-              <TextModal onClick={() => handleDialog("enableGoogleAuth")}>Change</TextModal>
+              <TextModal disabled={!options.google_auth}>Change</TextModal>
               <Card bgcolor="var(--color-enable)">
                 <BoxRow justify="space-between">
                   <h3>Withdraw & API</h3>
-                  <ToggleInput handleDialog={handleDialog} disable="cancelProcess" activate="" />
+                  <ToggleInput check={options.withdraw} handleDialog={handleDialog} disable="cancelProcess" activate="enableProcess" />
                 </BoxRow>
               </Card>
               <DividerH />
               <BoxRow justify="space-between">
                 <h3>SMS Authentication</h3>
-                <ToggleInput handleDialog={handleDialog} disable="desactiveSMS" activate="enableSMS" />
+                <ToggleInput check={options.sms_auth} handleDialog={handleDialog} disable="desactiveSMS" activate="enableSMS" />
               </BoxRow>
-              <TextModal onClick={() => handleDialog("enableSMS")}>Change</TextModal>
+              <TextModal disabled={!options.sms_auth}>Change</TextModal>
               <DividerH />
               <BoxRow justify="space-between">
                 <h3>Email Verification</h3>
-                <ToggleInput handleDialog={handleDialog} disable="" activate="" />
+                <ToggleInputWithout check={options.email_verify} type="email_verify" />
               </BoxRow>
-              <TextModal onClick={() => handleDialog("email")}>Change</TextModal>
+              <TextModal disabled={!options.email_verify} onClick={() => handleDialog("email")}>
+                Change
+              </TextModal>
             </Card>
 
             <Card>
@@ -100,7 +118,7 @@ export default function Settings() {
               <DividerH />
               <BoxRow justify="space-between">
                 Simplified interface
-                <ToggleInput handleDialog={handleDialog} disable="" activate="" />
+                <ToggleInputWithout check={options.interface_clean} type="interface_clean" />
               </BoxRow>
             </Card>
           </BoxColumn>
@@ -119,7 +137,7 @@ export default function Settings() {
             <Card>
               <BoxRow justify="space-between">
                 <h3>Whitelist management</h3>
-                <ToggleInput handleDialog={handleDialog} disable="" activate="" />
+                <ToggleInputWithout check={options.whitelist} type="whitelist" />
               </BoxRow>
               <DividerH />
               <p>

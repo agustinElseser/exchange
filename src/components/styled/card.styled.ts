@@ -10,4 +10,5 @@ export const Card = styled.div<CardProps>`
   border: 1px solid ${(props) => props.bgcolor || "var(--color-aux)"};
   background-color: ${(props) => props.bgcolor || "transparent"};
   border-radius: 3px;
+  height: 100%;
 `;

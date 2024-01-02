@@ -8,6 +8,8 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Form, LabelFormHelp } from "../../../../components/styled/Form.styled.ts";
+import { DBContext } from "../../context/DBContext.tsx";
+import { useContext } from "react";
 
 const schema = yup.object().shape({
   sms_code: yup
@@ -29,7 +31,8 @@ interface DefaultValues {
   email_code: string;
   fa: string;
 }
-const DesactiveSMSAuth = () => {
+export default function DesactiveSMSAuth({ onClose }) {
+  const { handleOptions } = useContext(DBContext);
   const defaultValues: DefaultValues = {
     sms_code: "",
     email_code: "",
@@ -47,9 +50,10 @@ const DesactiveSMSAuth = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSubmit = () => {
+    handleOptions("sms_auth", false);
     reset();
+    onClose("close");
   };
   return (
     <>
@@ -62,7 +66,7 @@ const DesactiveSMSAuth = () => {
         <BoxColumn gap="0px" align="start">
           <BoxRow justify="space-between">
             <label>SMS Verification code</label>
-            <TextModal>Get code</TextModal>
+            <TextModal type="button">Get code</TextModal>
           </BoxRow>
           <Controller name="sms_code" control={control} render={({ field }) => <Input {...field} error={Boolean(errors.sms_code)} />} />
           {errors.sms_code && <LabelFormHelp>{errors.sms_code.message}</LabelFormHelp>}
@@ -70,7 +74,7 @@ const DesactiveSMSAuth = () => {
         <BoxColumn gap="0px" align="start">
           <BoxRow justify="space-between">
             <label>Email Verification code</label>
-            <TextModal>Get code</TextModal>
+            <TextModal type="button">Get code</TextModal>
           </BoxRow>
           <Controller name="email_code" control={control} render={({ field }) => <Input {...field} error={Boolean(errors.email_code)} />} />
           {errors.email_code && <LabelFormHelp>{errors.email_code.message}</LabelFormHelp>}
@@ -85,7 +89,9 @@ const DesactiveSMSAuth = () => {
           {errors.fa && <LabelFormHelp>{errors.fa.message}</LabelFormHelp>}
         </BoxColumn>
         <ModalActions>
-          <Button variant="outlined">Cancel</Button>
+          <Button variant="outlined" onClick={() => onClose("close")}>
+            Cancel
+          </Button>
           <Button variant="full" color="var(--color-sell)" type="submit">
             Desactivate
           </Button>
@@ -93,5 +99,4 @@ const DesactiveSMSAuth = () => {
       </Form>
     </>
   );
-};
-export default DesactiveSMSAuth;
+}

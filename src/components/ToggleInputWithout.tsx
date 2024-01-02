@@ -1,23 +1,21 @@
-import useToggle from "../hooks/useToggle";
+import { useContext } from "react";
+
+import { DBContext, SettingsOptions } from "../pages/Settings/context/DBContext";
 import { ToggleSwitch, ToggleSwitchBackground, ToggleSwitchHandle, ToggleSwitchInput } from "./styled/toggleInput.styled";
 
 interface ToggleInputProps {
-  handleDialog: (type: string) => void;
   check: boolean;
-  disable: string;
-  activate: string;
+  type: keyof SettingsOptions;
 }
 
-export default function ToggleInput({ handleDialog, check, disable, activate }: ToggleInputProps) {
-  const { toggle } = useToggle();
+export default function ToggleInputWithout({ check, type }: ToggleInputProps) {
+  const { handleOptions } = useContext(DBContext);
 
   const handleAction = () => {
     if (check) {
-      handleDialog(disable);
-      toggle();
+      handleOptions(type, false);
     } else {
-      handleDialog(activate);
-      toggle();
+      handleOptions(type, true);
     }
   };
 

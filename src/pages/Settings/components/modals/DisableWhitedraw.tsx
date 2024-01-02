@@ -6,9 +6,10 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Form, LabelFormHelp } from "../../../../components/styled/Form.styled.ts";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { EyeIcon } from "../../../../components/svg/EyeIcon.tsx";
 import { EyeOffIcon } from "../../../../components/svg/EyeOffIcon.tsx";
+import { DBContext } from "../../context/DBContext.tsx";
 
 const schema = yup.object().shape({
   old_pw: yup.string().required("*Required field"),
@@ -23,7 +24,8 @@ interface DefaultValues {
   old_pw: string;
   fa: string;
 }
-export default function DisableWhitedraw() {
+export default function DisableWhitedraw({ onClose }) {
+  const { handleOptions } = useContext(DBContext);
   const [showActPassword, setShowActPassword] = useState(false);
   const defaultValues: DefaultValues = {
     email_code: "",
@@ -42,9 +44,10 @@ export default function DisableWhitedraw() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSubmit = () => {
+    handleOptions("withdraw", false);
     reset();
+    onClose("close");
   };
   return (
     <>
@@ -76,7 +79,9 @@ export default function DisableWhitedraw() {
           {errors.fa && <LabelFormHelp>{errors.fa.message}</LabelFormHelp>}
         </BoxColumn>
         <ModalActions>
-          <Button variant="outlined">Exit</Button>
+          <Button variant="outlined" onClick={() => onClose("close")}>
+            Exit
+          </Button>
           <Button variant="full" color="var(--color-sell)" type="submit">
             Cancel
           </Button>

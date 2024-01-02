@@ -17,9 +17,13 @@ export default function ListMarket() {
 
   return (
     <MarketContainer>
-      {data?.map((item) => (
-        <CoinItem key={item.instId} item={item} />
-      ))}
+      {data?.map((item) => {
+        if (item.last.length > 6) {
+          return null;
+        } else {
+          return <CoinItem key={item.instId} item={item} />;
+        }
+      })}
     </MarketContainer>
   );
 }
