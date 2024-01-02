@@ -3,30 +3,62 @@ import { Button } from "../../../../components/styled/button.styled.ts";
 import { Input } from "../../../../components/styled/input.styled.ts";
 import { ModalActions } from "../../../../components/styled/modal.styled.ts";
 import QRCodeGenerator from "../CodeQR.tsx";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Form, LabelFormHelp } from "../../../../components/styled/Form.styled.ts";
+
+const schema = yup.object().shape({
+  fa: yup
+    .string()
+    .required("*Required field")
+    .matches(/^\d{6}$/, "*Must be a 6-digit number"),
+});
 
 export default function EnableGoogleAuth() {
+  const defaultValues = {
+    fa: "",
+  };
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    defaultValues,
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (values: any) => {
+    console.log(values);
+    reset();
+  };
   return (
     <>
       <h3>Google Authentication</h3>
-      <BoxColumn align="start">
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <p>
           Please download Google Authentication on your mobile phone and scan the QR. Then provide code to enable authentication in your
           account.
         </p>
-
         <BoxColumn gap="0px" align="start">
           <label>QR</label>
           <QRCodeGenerator />
         </BoxColumn>
         <BoxColumn gap="0px" align="start">
           <label>Code</label>
-          <Input />
+          <Controller name="fa" control={control} render={({ field }) => <Input {...field} error={Boolean(errors.fa)} />} />
+          {errors.fa && <LabelFormHelp>{errors.fa.message}</LabelFormHelp>}
         </BoxColumn>
-      </BoxColumn>
-      <ModalActions>
-        <Button variant="outlined">Cancel</Button>
-        <Button variant="full">Submit</Button>
-      </ModalActions>
+        <ModalActions>
+          <Button variant="outlined">Cancel</Button>
+          <Button variant="full" type="submit">
+            Submit
+          </Button>
+        </ModalActions>
+      </Form>
     </>
   );
 }

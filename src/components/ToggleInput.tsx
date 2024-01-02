@@ -1,9 +1,28 @@
+import useToggle from "../hooks/useToggle";
 import { ToggleSwitch, ToggleSwitchBackground, ToggleSwitchHandle, ToggleSwitchInput } from "./styled/toggleInput.styled";
 
-export default function ToggleInput(props) {
+interface ToggleInputProps {
+  handleDialog: (type: string) => void;
+  disable: string;
+  activate: string;
+}
+
+export default function ToggleInput({ handleDialog, disable, activate }: ToggleInputProps) {
+  const [on, toggle] = useToggle();
+
+  const handleAction = () => {
+    if (on) {
+      handleDialog(disable);
+      toggle();
+    } else {
+      handleDialog(activate);
+      toggle();
+    }
+  };
+
   return (
     <ToggleSwitch>
-      <ToggleSwitchInput {...props} defaultChecked={true} />
+      <ToggleSwitchInput defaultChecked={on} onChange={handleAction} />
       <ToggleSwitchBackground>
         <ToggleSwitchHandle />
       </ToggleSwitchBackground>

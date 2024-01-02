@@ -50,6 +50,7 @@ export const ModalContent = styled.div`
 `;
 
 export const ModalActions = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   margin-top: 20px;

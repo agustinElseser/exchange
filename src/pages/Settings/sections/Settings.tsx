@@ -15,17 +15,20 @@ import { TextLink, TextModal } from "../../../components/styled/settings.styled.
 import ToggleInput from "../../../components/ToggleInput.tsx";
 import { VerifyIcon } from "../../../components/svg/VerifyIcon.tsx";
 import Modal from "../../../components/Modal.tsx";
+import Tooltip from "../../../components/Tooltip.tsx";
 
 const modals = {
+  emailVerification: <h2>Email Verification</h2>,
   email: <ChangeEmail />,
   FA: <TwoFactorAuth />,
-  enableSMS: <EnableSMSAuth />,
   changePw: <ChangePassword />,
-  disableAccount: <DisableAccount />,
+  enableGoogleAuth: <EnableGoogleAuth />,
   desactiveGoogle: <DesactiveGoogleAuth />,
+  enableSMS: <EnableSMSAuth />,
   desactiveSMS: <DesactiveSMSAuth />,
   cancelProcess: <DisableWhitedraw />,
-  enableGoogleAuth: <EnableGoogleAuth />,
+  disableAccount: <DisableAccount />,
+  whitelist: <h2>Whitelist management</h2>,
 };
 
 export default function Settings() {
@@ -33,14 +36,16 @@ export default function Settings() {
   const [typeDialog, setTypeDialog] = useState("");
 
   const handleDialog = (type: string) => {
-    setOpen(!open);
-    setTypeDialog(type);
+    if (type.length > 0) {
+      setTypeDialog(type);
+      setOpen(!open);
+    }
   };
+
   return (
     <>
       <BoxColumn align="start">
         <h1>Settings</h1>
-
         <BoxRow align="start">
           <BoxColumn>
             <Card>
@@ -54,25 +59,27 @@ export default function Settings() {
                   Goole Authentication
                   <span>(Settings & sign in)</span>
                 </h3>
-                <ToggleInput onClick={() => handleDialog("desactiveGoogle")} />
+                <Tooltip text="To enable Security key, first you have to turn on Google authentication">
+                  <ToggleInput handleDialog={handleDialog} disable="desactiveGoogle" activate="enableGoogleAuth" />
+                </Tooltip>
               </BoxRow>
               <TextModal onClick={() => handleDialog("enableGoogleAuth")}>Change</TextModal>
               <Card bgcolor="var(--color-enable)">
                 <BoxRow justify="space-between">
                   <h3>Withdraw & API</h3>
-                  <ToggleInput onClick={() => handleDialog("cancelProcess")} />
+                  <ToggleInput handleDialog={handleDialog} disable="cancelProcess" activate="" />
                 </BoxRow>
               </Card>
               <DividerH />
               <BoxRow justify="space-between">
                 <h3>SMS Authentication</h3>
-                <ToggleInput onClick={() => handleDialog("desactiveSMS")} />
+                <ToggleInput handleDialog={handleDialog} disable="desactiveSMS" activate="enableSMS" />
               </BoxRow>
               <TextModal onClick={() => handleDialog("enableSMS")}>Change</TextModal>
               <DividerH />
               <BoxRow justify="space-between">
                 <h3>Email Verification</h3>
-                <ToggleInput />
+                <ToggleInput handleDialog={handleDialog} disable="" activate="" />
               </BoxRow>
               <TextModal onClick={() => handleDialog("email")}>Change</TextModal>
             </Card>
@@ -93,15 +100,17 @@ export default function Settings() {
               <DividerH />
               <BoxRow justify="space-between">
                 Simplified interface
-                <ToggleInput />
+                <ToggleInput handleDialog={handleDialog} disable="" activate="" />
               </BoxRow>
             </Card>
           </BoxColumn>
           <BoxColumn>
             <Card bgcolor="var(--color-pink)">
               <BoxRow justify="space-between">
-                <h3>KYC verification</h3>
-                <BoxRow justify="space-between">
+                <BoxRow justify="start">
+                  <h3>KYC verification</h3>
+                </BoxRow>
+                <BoxRow justify="end">
                   <h2>VERIFIED</h2>
                   <VerifyIcon />
                 </BoxRow>
@@ -110,7 +119,7 @@ export default function Settings() {
             <Card>
               <BoxRow justify="space-between">
                 <h3>Whitelist management</h3>
-                <ToggleInput />
+                <ToggleInput handleDialog={handleDialog} disable="" activate="" />
               </BoxRow>
               <DividerH />
               <p>
